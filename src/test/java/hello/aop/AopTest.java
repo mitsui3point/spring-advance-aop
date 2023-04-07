@@ -3,6 +3,8 @@ package hello.aop;
 import hello.aop.order.OrderRepository;
 import hello.aop.order.OrderService;
 import hello.aop.order.aop.AspectV4Pointcut;
+import hello.aop.order.aop.AspectV5OrderLog;
+import hello.aop.order.aop.AspectV5OrderTx;
 import hello.aop.util.LogAppenders;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -19,7 +21,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 //@Import(AspectV1.class)
 //@Import(AspectV2.class)
 //@Import(AspectV3.class)
-@Import(AspectV4Pointcut.class)
+//@Import(AspectV4Pointcut.class)
+@Import({AspectV5OrderLog.class, AspectV5OrderTx.class})
 public class AopTest extends LogAppenders {
 
     @Autowired
