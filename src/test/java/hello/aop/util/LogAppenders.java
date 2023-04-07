@@ -11,12 +11,11 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class LogAppenders {
     public static final String ROOT_PACKAGE_NAME = "hello.aop";
-    public static final String ORDER_PACKAGE_NAME = "hello.aop.order";
-    public static final String ORDER_AOP_PACKAGE_NAME = "hello.aop.order.aop";
     protected ListAppender<ILoggingEvent> listAppender;
     private List<Logger> loggers;
     private LoggerContext loggerContext;
@@ -44,10 +43,8 @@ public class LogAppenders {
     private static boolean isSaveLogTarget(Logger logger) {
         String loggerName = logger.getName();
         boolean isUserLogger = loggerName.startsWith(ROOT_PACKAGE_NAME);
-        boolean isUserPackageLogger = loggerName.equals(ROOT_PACKAGE_NAME) ||
-                loggerName.equals(ORDER_PACKAGE_NAME) ||
-                loggerName.equals(ORDER_AOP_PACKAGE_NAME);
-        return isUserLogger && !isUserPackageLogger;
+        boolean isClassLogger = Pattern.compile("[A-Z]").matcher(loggerName).find();
+        return isUserLogger && isClassLogger;
     }
 
     private void logAppendStart() {
