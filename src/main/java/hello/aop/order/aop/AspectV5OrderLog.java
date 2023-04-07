@@ -18,7 +18,7 @@ import org.springframework.core.annotation.Order;
  */
 @Slf4j
 @Aspect
-@Order(1)
+@Order(2)
 public class AspectV5OrderLog {
     @Around("hello.aop.order.aop.Pointcuts.allOrder()")
     public Object doLog(ProceedingJoinPoint joinPoint) throws Throwable {

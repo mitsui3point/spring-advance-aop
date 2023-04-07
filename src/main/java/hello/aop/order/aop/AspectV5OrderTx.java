@@ -18,7 +18,7 @@ import org.springframework.core.annotation.Order;
  */
 @Slf4j
 @Aspect
-@Order(2)
+@Order(1)
 public class AspectV5OrderTx {
     @Around("hello.aop.order.aop.Pointcuts.orderAndService()")
     public Object doTransaction(ProceedingJoinPoint joinPoint) throws Throwable {
