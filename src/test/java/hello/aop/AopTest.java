@@ -3,6 +3,7 @@ package hello.aop;
 import hello.aop.order.OrderRepository;
 import hello.aop.order.OrderService;
 import hello.aop.order.aop.AspectV2;
+import hello.aop.order.aop.AspectV3;
 import hello.aop.util.LogAppenders;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Slf4j
 @SpringBootTest
 //@Import(AspectV1.class)
-@Import(AspectV2.class)
+//@Import(AspectV2.class)
+@Import(AspectV3.class)
 public class AopTest extends LogAppenders {
 
     @Autowired
@@ -46,9 +48,12 @@ public class AopTest extends LogAppenders {
     void success() {
         orderService.orderItem("itemA");
         assertThat(getOrderedLogs().get(0)).contains("[log] void hello.aop.order.OrderService.orderItem(String)");
-        assertThat(getOrderedLogs().get(1)).contains("[OrderService] 실행");
-        assertThat(getOrderedLogs().get(2)).contains("[log] String hello.aop.order.OrderRepository.save(String)");
-        assertThat(getOrderedLogs().get(3)).contains("[OrderRepository] 실행");
+        assertThat(getOrderedLogs().get(1)).contains("[트랜잭션 시작] void hello.aop.order.OrderService.orderItem(String)");
+        assertThat(getOrderedLogs().get(2)).contains("[OrderService] 실행");
+        assertThat(getOrderedLogs().get(3)).contains("[log] String hello.aop.order.OrderRepository.save(String)");
+        assertThat(getOrderedLogs().get(4)).contains("[OrderRepository] 실행");
+        assertThat(getOrderedLogs().get(5)).contains("[트랜잭션 커밋] void hello.aop.order.OrderService.orderItem(String)");
+        assertThat(getOrderedLogs().get(6)).contains("[리소스 릴리즈] void hello.aop.order.OrderService.orderItem(String)");
     }
 
     @Test
@@ -58,9 +63,12 @@ public class AopTest extends LogAppenders {
                 .isInstanceOf(IllegalStateException.class);
         //then
         assertThat(getOrderedLogs().get(0)).contains("[log] void hello.aop.order.OrderService.orderItem(String)");
-        assertThat(getOrderedLogs().get(1)).contains("[OrderService] 실행");
-        assertThat(getOrderedLogs().get(2)).contains("[log] String hello.aop.order.OrderRepository.save(String)");
-        assertThat(getOrderedLogs().get(3)).contains("[OrderRepository] 실행");
+        assertThat(getOrderedLogs().get(1)).contains("[트랜잭션 시작] void hello.aop.order.OrderService.orderItem(String)");
+        assertThat(getOrderedLogs().get(2)).contains("[OrderService] 실행");
+        assertThat(getOrderedLogs().get(3)).contains("[log] String hello.aop.order.OrderRepository.save(String)");
+        assertThat(getOrderedLogs().get(4)).contains("[OrderRepository] 실행");
+        assertThat(getOrderedLogs().get(5)).contains("[트랜잭션 롤백] void hello.aop.order.OrderService.orderItem(String)");
+        assertThat(getOrderedLogs().get(6)).contains("[리소스 릴리즈] void hello.aop.order.OrderService.orderItem(String)");
     }
 
     @Test
