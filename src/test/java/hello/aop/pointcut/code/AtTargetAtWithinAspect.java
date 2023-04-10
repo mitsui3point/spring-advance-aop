@@ -45,7 +45,7 @@ import org.aspectj.lang.annotation.Aspect;
  *      (args, @target, @within 포인트컷 지시자는 객체 인스턴스가 만들어지고, 런타임이 되어야 판단할 수 있다.
  *       프록시를 만들기 이전에는 args, @target, @within 포인트컷 지시자로는 판단할 수 없기 때문에,
  *       일단 스프링 컨테이너에는 프록시를 전부 다 만들어놓으려 하기 때문에,
- *       정확하게 목적한 pointcut 을 적용할 수 있다.)
+ *       정확하게 목적한 pointcut 을 적용할 수 없다.)
  */
 @Slf4j
 @Aspect
